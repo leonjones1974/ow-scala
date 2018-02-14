@@ -34,8 +34,11 @@ class ExerciseSpec extends FreeSpec {
         Scala has a toBinaryString which could be used to realise this requirement.
         As that doesn't seem particularly in the spirit of the exercise I've used it
         as a control function to prove my own implementation.
+        Performance benchmarking aside I'd probably use this in real-life because
+        it is much simpler
        */
-      val controlFunc: Int => Int = _.toBinaryString.count(_ == '1')
+      val controlFunc = (n: Int) => n.toBinaryString.count(_ == '1')
+
       forAll(numbersGreaterThanZero)(n =>
         populationCount(n) shouldBe controlFunc(n)
       )
@@ -44,14 +47,14 @@ class ExerciseSpec extends FreeSpec {
 }
 
 object ExerciseSpec {
-  private val isOdd: Int => Boolean = _ % 2 == 1
+  private val isEven: Int => Boolean = _ % 2 == 0
 
   val numbersGreaterThanZero: Gen[Int] = Gen.choose(1, 1000000)
 
   class EvenMatcher extends BeMatcher[Int] {
     def apply(left: Int) =
       MatchResult(
-        !isOdd(left),
+        isEven(left),
         left.toString + " was odd",
         left.toString + " was even"
       )

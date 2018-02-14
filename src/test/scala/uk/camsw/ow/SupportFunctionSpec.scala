@@ -36,19 +36,15 @@ class SupportFunctionSpec extends FreeSpec {
     }
 
     "must return a value that is a power of two" in {
-      forAll(anyIntInRange)(n =>
+      forAll(intsWithinRange)(n =>
         isPow2(roundUpPow2(n)) shouldBe true
       )
     }
 
     "must return something greater than or equal to the given value" in {
-      forAll(anyIntInRange)(n =>
+      forAll(intsWithinRange)(n =>
         roundUpPow2(n) should be >= n
       )
-    }
-
-    "must round up zero to 1" in {
-      roundUpPow2(0) shouldBe 1
     }
 
     "must round up specific examples correctly" in {
@@ -63,9 +59,7 @@ class SupportFunctionSpec extends FreeSpec {
 
 
 object SupportFunctionSpec {
-  val anyIntInRange: Gen[Int] = Gen.choose(0, 100000)
+  val intsWithinRange: Gen[Int] = Gen.choose(0, 100000)
   val powersOf2: Gen[Int] = Gen.choose(0, 20).map(1 << _)
   val nonPowersOf2: Gen[Int] = Gen.choose(2, 20).map(n => (1 << n) + 1)
-
-
 }
