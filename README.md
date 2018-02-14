@@ -5,8 +5,13 @@ Coding exercise for Oliver Wyman (in scala)
 
 Tested on Linux and OSX using Oracle Java 8
 
-   ```sbt test```          
+   ```sbt test```
+   
+## To run 
+The Exercise object is runnable and dumps the examples given in the exercise
 
+    ```sbt run```
+              
 ## Approach
 
 Solution composed of 3 functions found in Exercise

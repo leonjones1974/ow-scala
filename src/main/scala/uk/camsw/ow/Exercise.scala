@@ -2,7 +2,7 @@ package uk.camsw.ow
 
 import scala.annotation.tailrec
 
-object Exercise {
+object Exercise extends App {
 
   def populationCount(n: Int): Int = {
 
@@ -30,5 +30,10 @@ object Exercise {
 
     if (isPow2(n)) n
     else go(n)
+  }
+
+
+  for {n <- List(0, 5, 8, 15, 19)}{
+    println(s"populationCount($n) = ${populationCount(n)}")
   }
 }
