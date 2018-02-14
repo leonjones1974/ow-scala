@@ -5,15 +5,12 @@ import org.scalatest.FreeSpec
 import uk.camsw.ow.Exercise.populationCount
 import org.scalatest.Matchers._
 import org.scalatest.matchers.{BeMatcher, MatchResult}
-import org.scalatest.prop.GeneratorDrivenPropertyChecks
+import org.scalatest.prop.GeneratorDrivenPropertyChecks._
+
 
 class ExerciseSpec extends FreeSpec {
 
   import ExerciseSpec._
-
-  private val numbersGreaterThanZero = Gen.choose(1, Int.MaxValue)
-  private val oddNumbersGreaterThanOne =
-    numbersGreaterThanZero.filter(n => n > 1 && isOdd(n))
 
   "The population count function" - {
 
@@ -22,13 +19,13 @@ class ExerciseSpec extends FreeSpec {
     }
 
     "must return a count greater than or equal to one for any value > 0" in {
-      GeneratorDrivenPropertyChecks.forAll(numbersGreaterThanZero)(
+      forAll(numbersGreaterThanZero)(
         populationCount(_) should be >= 1
       )
     }
 
     "must return an even number for any odd number > 1" in {
-      GeneratorDrivenPropertyChecks.forAll(oddNumbersGreaterThanOne)(
+      forAll(oddNumbersGreaterThanOne)(
         populationCount(_) shouldBe odd
       )
     }
@@ -46,7 +43,7 @@ class ExerciseSpec extends FreeSpec {
         as a control function to prove my own implementation.
        */
       val controlFunc: Int => Int = _.toBinaryString.count(_ == '1')
-      GeneratorDrivenPropertyChecks.forAll(numbersGreaterThanZero)(n =>
+      forAll(numbersGreaterThanZero)(n =>
         populationCount(n) shouldBe controlFunc(n)
       )
     }
@@ -54,7 +51,13 @@ class ExerciseSpec extends FreeSpec {
 }
 
 object ExerciseSpec {
-  val isOdd: Int => Boolean = _ % 2 == 1
+  private val isOdd: Int => Boolean = _ % 2 == 1
+
+  val numbersGreaterThanZero: Gen[Int] = Gen.choose(1, 1000000)
+  val oddNumbersGreaterThanOne: Gen[Int] =
+    numbersGreaterThanZero.filter(n => n > 1 && isOdd(n))
+
+
 
   class OddMatcher extends BeMatcher[Int] {
     def apply(left: Int) =
