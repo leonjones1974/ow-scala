@@ -20,16 +20,12 @@ object Exercise {
 
   def populationCount(n: Int): Int = {
 
-
-//    def bitPos(n: Int): Int =
-
-
-
-    def go(acc: Int, n: Int): Int = n match {
-      case 0 => acc
-      case x => ???
+    def go(pow2: Int, x: Int, acc: Int = 0): Int = {
+      if (x == 0) acc
+      else if ((x - pow2) >= 0) go(pow2 >> 1, x - pow2, acc + 1)
+      else go(pow2 >> 1, x, acc)
     }
 
-    go(0, n)
+    go(roundUpPow2(n), n)
   }
 }

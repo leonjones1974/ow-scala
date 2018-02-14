@@ -7,7 +7,6 @@ import org.scalatest.Matchers._
 import org.scalatest.matchers.{BeMatcher, MatchResult}
 import org.scalatest.prop.GeneratorDrivenPropertyChecks._
 
-
 class ExerciseSpec extends FreeSpec {
 
   import ExerciseSpec._
@@ -21,12 +20,6 @@ class ExerciseSpec extends FreeSpec {
     "must return a count greater than or equal to one for any value > 0" in {
       forAll(numbersGreaterThanZero)(
         populationCount(_) should be >= 1
-      )
-    }
-
-    "must return an even number for any odd number > 1" in {
-      forAll(oddNumbersGreaterThanOne)(
-        populationCount(_) shouldBe odd
       )
     }
 
@@ -54,19 +47,15 @@ object ExerciseSpec {
   private val isOdd: Int => Boolean = _ % 2 == 1
 
   val numbersGreaterThanZero: Gen[Int] = Gen.choose(1, 1000000)
-  val oddNumbersGreaterThanOne: Gen[Int] =
-    numbersGreaterThanZero.filter(n => n > 1 && isOdd(n))
 
-
-
-  class OddMatcher extends BeMatcher[Int] {
+  class EvenMatcher extends BeMatcher[Int] {
     def apply(left: Int) =
       MatchResult(
-        isOdd(left),
-        left.toString + " was even",
-        left.toString + " was odd"
+        !isOdd(left),
+        left.toString + " was odd",
+        left.toString + " was even"
       )
   }
 
-  val odd = new OddMatcher
+  val even = new EvenMatcher
 }
