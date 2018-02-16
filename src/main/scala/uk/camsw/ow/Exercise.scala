@@ -11,7 +11,7 @@ object Exercise extends App {
       def nextPow2 = pow2 >> 1
 
       if (x == 0) acc
-      else if ((x - pow2) >= 0) go(nextPow2, x - pow2, acc + 1)
+      else if (pow2 <= x) go(nextPow2, x - pow2, acc + 1)
       else go(nextPow2, x, acc)
     }
 
